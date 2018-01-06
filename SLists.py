@@ -10,6 +10,7 @@ class SList(object):
 
     def PrintAllVals(self):
         runner = self.head
+        self.tail = runner
         while(runner != None):
             print runner.value
             if runner.next:
@@ -20,14 +21,24 @@ class SList(object):
 
     def AddBack(self,val):
         new_node = SLNode(val)
-        self.tail.next = new_node
-        self.tail = new_node
+        if self.tail == None:
+            self.tail = new_node
+        else:
+            self.tail.next = new_node
+            self.tail = new_node
+        if self.head == None:
+            self.head = new_node
         return self
 
     def AddFront(self,val):
         new_node = SLNode(val)
-        new_node.next = self.head
-        self.head = new_node
+        if self.head == None:
+            self.head = new_node
+        else:
+            new_node.next = self.head
+            self.head = new_node
+        if self.tail == None:
+            self.tail = new_node
         return self
 
     def InsertBefore(self,nextVal, val):
@@ -70,17 +81,23 @@ class SList(object):
         return self
 
     def RverseList(self):
-        #sould think about self.tail.next = self.head
+        if self.head == self.tail:
+            return self
+        
         first = self.head
-        second = first.next if first.next != None else None
-        while(second != None):
+        second = first.next
+
+        while(second.next != None):
+            third = second.next
+            second.next = first
             if first == self.head:
                 first.next = None
-            else:
-                first = first.next
-            second = second.next
-            second.next = first
-        self.head = first
+                self.tail = first
+            first = second
+            second = third
+        self.head = second
+        second.next = first
+
         return self
 
 
@@ -109,6 +126,6 @@ print "=============="
 list.RemoveNode('BeforeA')
 list.PrintAllVals()
 print "=============="
-#list.RverseList()
-#list.PrintAllVals()
+list.RverseList()
+list.PrintAllVals()
 
