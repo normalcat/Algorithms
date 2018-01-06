@@ -15,6 +15,7 @@ class SList(object):
             if runner.next:
                 self.tail = runner.next
             runner = runner.next
+        print "Head:" + self.head.value + " Tail:" + self.tail.value
         return self
 
     def AddBack(self,val):
@@ -48,7 +49,7 @@ class SList(object):
         new_node = SLNode(val)
         new_node.next = runner.next
         runner.next = new_node
-        if runner == self.tail
+        if runner == self.tail:
             self.tail = new_node
         return self
 
@@ -58,13 +59,18 @@ class SList(object):
             self.head = runner.next
             return self 
 
-        while(runner.next != None and runner.next.value != val):
+        while(runner.next != self.tail and runner.next.value != val):
             runner = runner.next
 
-        runner.next = runner.next.next
+        if runner.next == self.tail and runner.next.value == val:
+            runner.next = None
+            self.tail = runner 
+        else:           
+            runner.next = runner.next.next
         return self
 
     def RverseList(self):
+        #sould think about self.tail.next = self.head
         first = self.head
         second = first.next if first.next != None else None
         while(second != None):
